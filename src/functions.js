@@ -1,14 +1,23 @@
-import { PAGE_TIMELINE, PAGE_ACTIVITIES, PAGE_PROGRESS } from './constants'
+import { PAGE_TIMELINE,HOURS_IN_DAY, MIDNIGHT_HOUR,} from './constants'
+import { isTheNavValid } from './validators'
 
 export function normalizePageHash() {
   const hash = window.location.hash.slice(1)
-  const findItem = [PAGE_TIMELINE, PAGE_ACTIVITIES, PAGE_PROGRESS].includes(hash)
-  // const findItem = navItems.find((el) => el[0] === hash)
+  const findItem = isTheNavValid(hash)
   if (findItem) {
     return hash
   } else {
     window.location.hash = PAGE_TIMELINE
     return PAGE_TIMELINE
   }
+}
+
+export function generateTimelineItems() {
+  const timelineItems = []
+
+  for (let hour = MIDNIGHT_HOUR; hour < HOURS_IN_DAY; hour++) {
+    timelineItems.push({ hour })
+  }
+  return timelineItems
 }
 
