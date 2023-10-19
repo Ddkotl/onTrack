@@ -1,20 +1,18 @@
 <script setup>
+import { ref } from 'vue'
 import BaseSelect from '../components/BaseSelect.vue'
-import { isTimeLineItemValid } from '../validators';
+import timelineHour from './timelineHour.vue'
+import { isTimeLineItemValid } from '../validators'
 
-const props = defineProps({
-    timelineItem:{
-        required:true,
-        type:Object,
-        validator: isTimeLineItemValid
-    }
+defineProps({
+  timelineItem: {
+    required: true,
+    type: Object,
+    validator: isTimeLineItemValid
+  }
 })
 
-const hourLinkClasses = [
-  props.timelineItem.hour === new Date().getHours()
-    ? 'bg-purple-800 font-black text-white absolute -top-4 left-1/2 -translate-x-1/2 rounded  px-2 font-mono text-lg'
-    : 'bg-green-100 text-green-500 absolute -top-4 left-1/2 -translate-x-1/2 rounded  px-2 font-mono text-lg'
-]
+
 
 const options = [
   { value: 1, label: 'Кодинг' },
@@ -22,11 +20,16 @@ const options = [
   { value: 3, label: 'Сон' }
 ]
 
-const selectedActivitiId = 3
+const selectedActivitiId = ref(1)
 </script>
 <template>
   <li class="relative flex flex-col gap-2 border-t border-green-700 py-10 px-4">
-    <a href="#" :class="hourLinkClasses">{{ timelineItem.hour }}:00</a>
-    <BaseSelect :selected="selectedActivitiId" :options="options" placeholder="Выберите занятие" />
+    <timelineHour :hour="timelineItem.hour" />
+    <BaseSelect
+      :selected="selectedActivitiId"
+      :options="options"
+      placeholder="Выберите занятие"
+      v-on:select="selectedActivitiId = $event"
+    />
   </li>
 </template>
