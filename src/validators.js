@@ -20,8 +20,8 @@ export function validateActivities(activities){
   return activities.every(isActivityValid)
 }
 
-function isSelectValid({ value, label }) {
-  return isNumber(value) && isString(label)
+export function isSelectValid({ value, label }) {
+  return isNumber(value) && isNotEmptyString(label)
 }
 
 export function isBaseSelectValid(options) {
@@ -49,7 +49,7 @@ function isBetween(value, start, end) {
 function isNull(value) {
   return value === null
 }
-function isUndefined(value) {
+export function isUndefined(value) {
   return value === undefined
 }
 function isNumber(value) {

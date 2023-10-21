@@ -2,32 +2,31 @@
 import { ref } from 'vue'
 import BaseSelect from '../components/BaseSelect.vue'
 import timelineHour from './timelineHour.vue'
-import { isTimeLineItemValid } from '../validators'
+import { isTimeLineItemValid,isBaseSelectValid } from '../validators'
 
 defineProps({
   timelineItem: {
     required: true,
     type: Object,
     validator: isTimeLineItemValid
+  },
+  activitySelectOptions:{
+    required: true,
+    type:Array,
+    validator: isBaseSelectValid
   }
 })
 
 
 
-const options = [
-  { value: 1, label: 'Кодинг' },
-  { value: 2, label: 'Тренировка' },
-  { value: 3, label: 'Сон' }
-]
-
-const selectedActivitiId = ref(1)
+const selectedActivitiId = ref(0)
 </script>
 <template>
   <li class="relative flex flex-col gap-2 border-t border-green-700 py-10 px-4">
     <timelineHour :hour="timelineItem.hour" />
     <BaseSelect
       :selected="selectedActivitiId"
-      :options="options"
+      :options="activitySelectOptions"
       placeholder="Выберите занятие"
       v-on:select="selectedActivitiId = $event"
     />
