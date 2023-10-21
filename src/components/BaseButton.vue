@@ -1,9 +1,10 @@
 <script>
-import {BUTTON_TYPE_DANGER ,BUTTON_TYPE_NEUTRAL} from '../constants'
+import {BUTTON_TYPE_DANGER ,BUTTON_TYPE_NEUTRAL,BUTTON_TYPE_PRIMARY} from '../constants'
 
   const typeClasses = {
-    [BUTTON_TYPE_NEUTRAL]:'enabled:hover:bg-violet-600 border bg-violet-200',
-    [BUTTON_TYPE_DANGER]:'enabled:hover:bg-red-600 border bg-red-200 text-white',
+    [BUTTON_TYPE_NEUTRAL]:'enabled:hover:bg-violet-800 border bg-violet-400',
+    [BUTTON_TYPE_DANGER]:'enabled:hover:bg-red-800 border bg-red-400 text-white',
+    [BUTTON_TYPE_PRIMARY]:'enabled:hover:bg-sky-800 border bg-sky-400 text-white',
   }
 
 </script>
@@ -11,7 +12,7 @@ import {BUTTON_TYPE_DANGER ,BUTTON_TYPE_NEUTRAL} from '../constants'
 import {isButtonTypeValid} from '../validators'
 defineProps({
   type:{
-    default: BUTTON_TYPE_NEUTRAL,
+    default: BUTTON_TYPE_PRIMARY,
     type:String,
     validator: isButtonTypeValid
   }

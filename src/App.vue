@@ -27,6 +27,10 @@ function goTo(page) {
 function deleteActivity(activity){
   activities.value.splice(activities.value.indexOf(activity), 1)
 }
+
+function createActivity(activity){
+  activities.value.push(activity)
+}
 </script>
 <template>
   <TheHeader v-on:navigation="goTo($event)" />
@@ -39,7 +43,8 @@ function deleteActivity(activity){
     <TheActivitiesPage
       v-show="currentPage === PAGE_ACTIVITIES"
       :activities="activities"
-      v-on:deleteActivity="deleteActivity()"
+      v-on:deleteActivity="deleteActivity"
+      v-on:createActivity="createActivity"
     />
     <TheProgressPage v-show="currentPage === PAGE_PROGRESS" />
   </main>
