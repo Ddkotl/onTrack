@@ -1,7 +1,6 @@
 import {
   PAGE_TIMELINE,
   HOURS_IN_DAY,
-  MIDNIGHT_HOUR,
   SECONDS_IN_HOUR,
   SECONDS_IN_MINUTE,
   MINUTS_IN_HOUR,
@@ -27,17 +26,12 @@ export function normalizePageHash() {
   }
 }
 
-export function generateTimelineItems() {
-  const timelineItems = []
-
-  for (let hour = MIDNIGHT_HOUR; hour < HOURS_IN_DAY; hour++) {
-    timelineItems.push({
-      hour,
-      activityId: null,
-      activitySeconds: 0
-    })
-  }
-  return timelineItems
+export function generateTimelineItems(activities) {
+  return [...Array(HOURS_IN_DAY).keys()].map((hour) => ({
+    hour,
+    activityId: hour % 4 === 0 ? null : activities[hour % 2].id,
+    activitySeconds: hour % 4 === 0 ? 0 : (15 * SECONDS_IN_MINUTE * hour) % SECONDS_IN_HOUR
+  }))
 }
 
 export function generateActivitySelectOptions(activities) {
@@ -53,8 +47,6 @@ export function normalizeSelectValue(value) {
 }
 
 export function generatePeriodSelectOptions(periodsInMinutes) {
-
-
   return periodsInMinutes.map((periodsInMinutes) => {
     return {
       value: periodsInMinutes * SECONDS_IN_MINUTE,
@@ -77,5 +69,5 @@ export function formatSeconds(seconds) {
 
   const utc = date.toUTCString()
 
-  return utc.substring(utc.indexOf(':')-2 , utc.indexOf(':')+6)
+  return utc.substring(utc.indexOf(':') - 2, utc.indexOf(':') + 6)
 }
