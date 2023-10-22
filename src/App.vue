@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import TheHeader from './components/TheHeader.vue'
 import TheNav from './components/TheNav.vue'
 import TheTimelinePage from './pages/TheTimelinePage.vue'
@@ -7,6 +7,7 @@ import TheActivitiesPage from './pages/TheActivitiesPage.vue'
 import TheProgressPage from './pages/TheProgressPage.vue'
 import {
   normalizePageHash,
+  generateActivities,
   generateTimelineItems,
   generateActivitySelectOptions
 } from './functions'
@@ -14,22 +15,37 @@ import { PAGE_TIMELINE, PAGE_ACTIVITIES, PAGE_PROGRESS } from './constants'
 
 const currentPage = ref(normalizePageHash())
 
-const timelineItems = generateTimelineItems()
+const timelineItems = ref(generateTimelineItems())
 
-const activities = ref(['Кодинг', 'Тренировка', 'Сон'])
+const activities = ref(generateActivities())
 
-const activitySelectOptions = generateActivitySelectOptions(activities.value)
+const activitySelectOptions = computed(() => {
+ return generateActivitySelectOptions(activities.value)
+})
 
 function goTo(page) {
   currentPage.value = page
 }
 
-function deleteActivity(activity){
+function deleteActivity(activity) {
+  timelineItems.value.forEach((timelineItem)=>{
+    if(timelineItem.activityId ===activity.id){
+      timelineItem.activityId = null
+    }
+  })
   activities.value.splice(activities.value.indexOf(activity), 1)
 }
 
-function createActivity(activity){
+function createActivity(activity) {
   activities.value.push(activity)
+}
+
+function setTimelineItemActivity(timelineItem,activity){
+  timelineItem.activityId = activity.id
+}
+
+function setActivitySecondsToComplete(activity,secondsToComplete){
+  activity.secondsToComplete= secondsToComplete
 }
 </script>
 <template>
@@ -37,14 +53,17 @@ function createActivity(activity){
   <main class="flex flex-col flex-grow">
     <TheTimelinePage
       v-show="currentPage === PAGE_TIMELINE"
+      :activities="activities"
       :timelineItems="timelineItems"
       :activitySelectOptions="activitySelectOptions"
+      v-on:setTimelineItemActivity="setTimelineItemActivity"
     />
     <TheActivitiesPage
       v-show="currentPage === PAGE_ACTIVITIES"
       :activities="activities"
       v-on:deleteActivity="deleteActivity"
       v-on:createActivity="createActivity"
+      v-on:setActivitySecondsToComplete="setActivitySecondsToComplete"
     />
     <TheProgressPage v-show="currentPage === PAGE_PROGRESS" />
   </main>
