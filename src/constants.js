@@ -4,9 +4,9 @@ export const PAGE_TIMELINE = 'timeline'
 export const PAGE_ACTIVITIES = 'activities'
 export const PAGE_PROGRESS = 'progress'
 export const NAV_ITEMS = [
-  [PAGE_TIMELINE, ClockIcon, 'Ваше время'],
-  [PAGE_ACTIVITIES, ListBulletIcon, 'Активности'],
-  [PAGE_PROGRESS, ChartBarIcon, 'Прогресс']
+  { page: PAGE_TIMELINE, icon: ClockIcon, name: 'Ваше время' },
+  { page: PAGE_ACTIVITIES, icon: ListBulletIcon, name: 'Активности' },
+  { page: PAGE_PROGRESS, icon: ChartBarIcon, name: 'Прогресс' }
 ]
 
 export const BUTTON_TYPE_DANGER = 'danger'
@@ -20,14 +20,12 @@ export const BUTTON_TYPES = [
   BUTTON_TYPE_DANGER,
   BUTTON_TYPE_PRIMARY,
   BUTTON_TYPE_WARNING,
-  BUTTON_TYPE_SUCCESS,
+  BUTTON_TYPE_SUCCESS
 ]
-
 
 export const MILLISECONDS_IN_SECOND = 1000
 export const MINUTS_IN_HOUR = 60
 export const SECONDS_IN_MINUTE = 60
-export const SECONDS_IN_HOUR = MINUTS_IN_HOUR*SECONDS_IN_MINUTE
+export const SECONDS_IN_HOUR = MINUTS_IN_HOUR * SECONDS_IN_MINUTE
 export const HOURS_IN_DAY = 24
 export const MIDNIGHT_HOUR = 0
-

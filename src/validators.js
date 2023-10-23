@@ -1,7 +1,10 @@
 import { BUTTON_TYPES, HOURS_IN_DAY, MIDNIGHT_HOUR, NAV_ITEMS } from './constants'
 
-export function isTheNavValid(currentPage) {
-  return NAV_ITEMS.some((el) => el[0] === currentPage)
+export function isTheNavValid(page) {
+  return NAV_ITEMS.some(navItem => navItem.page === page)
+}
+export function isTheNavItemValid(navItem) {
+  return NAV_ITEMS.includes(navItem)
 }
 export function isTimeLineItemValid({ hour }) {
   return isHourValid(hour)

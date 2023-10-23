@@ -4,6 +4,7 @@ import { isActivityValid } from '../validators'
 import BaseButton from './BaseButton.vue'
 import BaseSelect from './BaseSelect.vue'
 import { TrashIcon } from '@heroicons/vue/24/outline'
+import { periodSelectOptionsKey,deleteActivityKey,setActivitySecondsToCompleteKey } from '../keys'
 import ActivitySecondsToComplete from '../components/ActivitySecondsToComplete.vue'
 import { inject } from 'vue'
 
@@ -15,9 +16,9 @@ defineProps({
   }
 })
 
-const periodSelectOptions = inject('periodSelectOptions')
-const deleteActivity = inject('deleteActivity')
-const setActivitySecondsToComplete = inject('setActivitySecondsToComplete')
+const periodSelectOptions = inject(periodSelectOptionsKey)
+const deleteActivity = inject(deleteActivityKey)
+const setActivitySecondsToComplete = inject(setActivitySecondsToCompleteKey)
 </script>
 <template>
   <li class="flex flex-col gap-2 p-4">
@@ -33,7 +34,7 @@ const setActivitySecondsToComplete = inject('setActivitySecondsToComplete')
         placeholder="Выберите время"
         :selected="activity.secondsToComplete || null"
         :options="periodSelectOptions"
-        v-on:select="setActivitySecondsToComplete(activity,$event|| 0)"
+        v-on:select="setActivitySecondsToComplete(activity,$event)"
       />
       <ActivitySecondsToComplete
         v-if="activity.secondsToComplete"

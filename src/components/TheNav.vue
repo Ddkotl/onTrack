@@ -9,13 +9,12 @@ import { NAV_ITEMS } from '../constants'
   <nav class="sticky bottom-0 z-20 bg-white">
     <ul class="flex items-center justify-around border-t border-green-500">
       <NavItem
-        v-for="page in NAV_ITEMS"
-        :key="page[0]"
-        :page="page[0]"
+        v-for="navItem in NAV_ITEMS"
+        :key="navItem.page"
+        :navItem="navItem"
 
       >
-        <component :is="page[1]" class="h-6 w-6 text-green-500" />
-        {{ page[2] }}
+
       </NavItem>
     </ul>
   </nav>

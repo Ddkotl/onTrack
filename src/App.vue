@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed, provide } from 'vue'
+import { ref, computed, provide, readonly } from 'vue'
 import { PAGE_TIMELINE, PAGE_ACTIVITIES, PAGE_PROGRESS } from './constants'
 import {
   generateActivities,
@@ -8,6 +8,7 @@ import {
   generatePeriodSelectOptions
 } from './functions'
 import { currentPage,timelineRef } from './router'
+import * as keys from './keys'
 import TheHeader from './components/TheHeader.vue'
 import TheNav from './components/TheNav.vue'
 import TheTimelinePage from './pages/TheTimelinePage.vue'
@@ -40,7 +41,7 @@ function createActivity(activity) {
 }
 
 function setTimelineItemActivity(timelineItem, activityId) {
-  timelineItem.activityId = activityId
+  timelineItem.activityId = activityId || 0
 }
 
 function updateTimelineItemActivitySeconds(timelineItem, activitySeconds) {
@@ -49,14 +50,14 @@ function updateTimelineItemActivitySeconds(timelineItem, activitySeconds) {
 function setActivitySecondsToComplete(activity, secondsToComplete) {
   activity.secondsToComplete = secondsToComplete
 }
-provide('updateTimelineItemActivitySeconds', updateTimelineItemActivitySeconds)
-provide('setTimelineItemActivity', setTimelineItemActivity)
-provide('setActivitySecondsToComplete', setActivitySecondsToComplete)
-provide('createActivity', createActivity)
-provide('deleteActivity', deleteActivity)
-provide('periodSelectOptions', generatePeriodSelectOptions())
-provide('timelineItems', timelineItems.value)
-provide('activitySelectOptions', activitySelectOptions.value)
+provide(keys.updateTimelineItemActivitySecondsKey, updateTimelineItemActivitySeconds)
+provide(keys.setTimelineItemActivityKey, setTimelineItemActivity)
+provide(keys.setActivitySecondsToCompleteKey, setActivitySecondsToComplete)
+provide(keys.createActivityKey, createActivity)
+provide(keys.deleteActivityKey, deleteActivity)
+provide(keys.periodSelectOptionsKey, readonly(generatePeriodSelectOptions()))
+provide(keys.timelineItemsKey, readonly(timelineItems.value) )
+provide(keys.activitySelectOptionsKey, readonly(activitySelectOptions.value))
 </script>
 <template>
   <TheHeader />
