@@ -6,7 +6,7 @@ import BaseButton from './BaseButton.vue'
 import BaseSelect from './BaseSelect.vue'
 import BaseIcon from './BaseIcon.vue'
 import { deleteActivity,updateActivity } from '../activities'
-import ActivitySecondsToComplete from '../components/ActivitySecondsToComplete.vue'
+import RemainingActivitySeconds from '../components/RemainingActivitySeconds.vue'
 import { resetTimelineItemActivities,timelineItems } from '../timelineItems'
 
 defineProps({
@@ -39,7 +39,7 @@ function deleteAndResetActivity(activity){
         :options="PERIOD_SELECT_OPTIONS"
         v-on:select="updateActivity(activity,{secondsToComplete: $event || 0})"
       />
-      <ActivitySecondsToComplete
+      <RemainingActivitySeconds
         v-if="activity.secondsToComplete"
         :activity="activity"
       />

@@ -53,3 +53,8 @@ export function getProgressColorClass(percentage){
   if(percentage<HUNDRED_PERSENT) return 'bg-blue-500';
   return 'bg-green-500';
 }
+
+
+export function formatSecondsWithSign(seconds) {
+  return `${seconds >= 0 ? '+' : '-'}${formatSeconds(seconds)}`
+}

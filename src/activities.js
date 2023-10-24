@@ -38,3 +38,14 @@ function generateActivities() {
 function generateActivitySelectOptions(activities) {
   return activities.map((activity) => ({ label: activity.name, value: activity.id }))
 }
+
+
+export function calculateCompletionPercentage(totalTrackedSeconds) {
+  return Math.floor((totalTrackedSeconds * HUNDRED_PERSENT) / totalActivitySecondsToComplete.value)
+}
+
+const totalActivitySecondsToComplete = computed(() => {
+  return trackedActivities.value
+    .map(({ secondsToComplete }) => secondsToComplete)
+    .reduce((total, seconds) => total + seconds, 0)
+})

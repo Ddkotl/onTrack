@@ -14,12 +14,12 @@ export function resetTimelineItemActivities(timelineItems, activity) {
   filterTimelineItemsByActivity(timelineItems, activity).forEach((timelineItem) =>
     updateTimelineItem(timelineItem, {
       activityId: null,
-      activitySeconds: 0
+      activitySeconds:  timelineItem.hour === currentHour() ? timelineItem.activitySeconds : 0
     })
   )
 }
 
-export function calculateTrackedActivitySeconds(timelineItems,activity) {
+export function calculateTrackedActivitySeconds(timelineItems, activity) {
   return filterTimelineItemsByActivity(timelineItems, activity)
     .map(({ activitySeconds }) => activitySeconds)
     .reduce((total, seconds) => Math.round(total + seconds), 0)
@@ -34,7 +34,7 @@ export function scrollToHour(hour, isSmooth = true) {
   el.scrollIntoView({ behavior: isSmooth ? 'smooth' : 'instant' })
 }
 
-function filterTimelineItemsByActivity(timelineItems,{ id }) {
+function filterTimelineItemsByActivity(timelineItems, { id }) {
   return timelineItems.filter(({ activityId }) => activityId === id)
 }
 
