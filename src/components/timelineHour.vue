@@ -1,6 +1,7 @@
 <script setup>
 import { isHourValid } from '../validators'
-import {currentHour} from '../functions'
+import { currentHour } from '../functions'
+import { scrollToHour } from '../timelineItems';
 const props = defineProps({
   hour: {
     required: true,
@@ -17,5 +18,5 @@ const classes = [
 const formattedHour = `${props.hour.toString().padStart(2, 0)}:00`
 </script>
 <template>
-  <a href="#" :class="classes">{{ formattedHour }}</a>
+  <a href="#" :class="classes" v-on:click.prevent="scrollToHour(hour)">{{ formattedHour }} </a>
 </template>

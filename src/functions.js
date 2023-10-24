@@ -4,6 +4,7 @@ import {
   MILLISECONDS_IN_SECOND
 } from './constants'
 import { isNull } from './validators'
+import {LOW_PERSENT,MEDIUM_PERSENT,HUNDRED_PERSENT} from './constants'
 
 export function id() {
   return Date.now().toString(36) + Math.random().toString(36).substring(2)
@@ -44,4 +45,11 @@ export function formatSeconds(seconds) {
 
 export function currentHour(){
   return new Date().getHours()
+}
+
+export function getProgressColorClass(percentage){
+  if(percentage<LOW_PERSENT) return 'bg-red-500';
+  if(percentage<MEDIUM_PERSENT) return 'bg-yellow-500';
+  if(percentage<HUNDRED_PERSENT) return 'bg-blue-500';
+  return 'bg-green-500';
 }
