@@ -1,9 +1,10 @@
 <script setup>
 import { isBaseSelectValid,isUndefinedOrNull,isSelectValueValid } from '../validators'
-import { XMarkIcon } from '@heroicons/vue/24/outline'
+import BaseIcon from './BaseIcon.vue';
 import BaseButton from './BaseButton.vue'
 import { computed } from 'vue';
 import {normalizeSelectValue} from '../functions'
+import { ICON_XMARK } from '../icons'
 
 const props = defineProps({
   options: {
@@ -35,7 +36,7 @@ function select(value){
 <template>
   <div class="flex gap-2">
     <BaseButton v-on:click="select(null)" >
-      <XMarkIcon class="h-8" />
+      <BaseIcon :name="ICON_XMARK" />
     </BaseButton>
     <select
       class="w-full truncate rounded bg-violet-200 py-1 px-2 text-2xl"

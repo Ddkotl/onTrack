@@ -1,10 +1,11 @@
 <script setup>
 import {  nextTick, ref } from 'vue'
 import BaseButton from './BaseButton.vue'
-import { PlusIcon } from '@heroicons/vue/24/outline'
+import BaseIcon from './BaseIcon.vue';
 import { id } from '../functions';
 import { BUTTON_TYPE_PRIMARY } from '../constants';
 import { createActivity } from '../activities';
+import { ICON_PLUS } from '../icons'
 
 const name = ref('')
 
@@ -30,7 +31,7 @@ async function submit() {
       placeholder="Новая активность"
     />
     <BaseButton :type="BUTTON_TYPE_PRIMARY" :disabled="name.trim() === ''">
-      <PlusIcon class="h-8" />
+      <BaseIcon :name="ICON_PLUS" />
     </BaseButton>
   </form>
 </template>

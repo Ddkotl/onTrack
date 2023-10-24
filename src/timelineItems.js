@@ -1,37 +1,54 @@
 import { ref } from 'vue'
-import { HOURS_IN_DAY } from './constants'
-import {activities} from './activities'
+import { HOURS_IN_DAY, MIDNIGHT_HOUR } from './constants'
+import { activities } from './activities'
+import { currentHour } from './functions'
 
+export const timelineItemsRefs = ref([])
 export const timelineItems = ref(generateTimelineItems())
 
-export function setTimelineItemActivity(timelineItem, activityId) {
-  timelineItem.activityId = activityId || 0
-}
-
-export function updateTimelineItemActivitySeconds(timelineItem, activitySeconds) {
-  timelineItem.activitySeconds += activitySeconds
+export function updateTimelineItem(timelineItem, fields) {
+  return Object.assign(timelineItem, fields)
 }
 
 export function resetTimelineItemActivities(activity) {
-  timelineItems.value.forEach((timelineItem) => {
-    if (timelineItem.activityId === activity.id) {
-      ;(timelineItem.activityId = null), (timelineItem.activitySeconds = null)
-    }
-  })
+  timelineItems.value
+    .filter((timelineItem) => hasActivity(timelineItem, activity))
+    .forEach((timelineItem) =>
+      updateTimelineItem(timelineItem, {
+        activityId: null,
+        activitySeconds: 0
+      })
+    )
 }
 
 export function getTotalActivitySeconds(activity) {
-    return timelineItems.value
-    .filter((timelineItem)=>timelineItem.activityId === activity.id)
-    .reduce((totalSeconds,timelineItem)=> Math.round(timelineItem.activitySeconds+ totalSeconds), 0)
-  }
+  return timelineItems.value
+    .filter((timelineItem) => hasActivity(timelineItem, activity))
+    .reduce(
+      (totalSeconds, timelineItem) => Math.round(timelineItem.activitySeconds + totalSeconds),
+      0
+    )
+}
+
+export function scrollToCurrentHour(isSmooth = false){
+  return scrollToHour(currentHour(),isSmooth)
+}
+
+export function scrollToHour(hour, isSmooth = true) {
+  const el = hour === MIDNIGHT_HOUR ? document.body : timelineItemsRefs.value[hour - 1].$el
+  el.scrollIntoView({ behavior: isSmooth ? 'smooth' : 'instant' })
+}
+
+function hasActivity(timelineItem, activity) {
+  return timelineItem.activityId === activity.id
+}
 
 function generateTimelineItems() {
-    return [...Array(HOURS_IN_DAY).keys()].map((hour) => ({
-      hour,
-      // activityId: hour % 4 === 0 ? null : activities[hour % 2].id,
-      // activitySeconds: hour % 4 === 0 ? 0 : (15 * SECONDS_IN_MINUTE * hour) % SECONDS_IN_HOUR
-      activityId: [0, 1, 2, 3, 4].includes(hour) ? activities.value[hour % 3].id : null,
-      activitySeconds: [0, 1, 2, 3, 4].includes(hour) ? hour * 600 : 0
-    }))
-  }
+  return [...Array(HOURS_IN_DAY).keys()].map((hour) => ({
+    hour,
+    // activityId: hour % 4 === 0 ? null : activities[hour % 2].id,
+    // activitySeconds: hour % 4 === 0 ? 0 : (15 * SECONDS_IN_MINUTE * hour) % SECONDS_IN_HOUR
+    activityId: [0, 1, 2, 3, 4].includes(hour) ? activities.value[hour % 3].id : null,
+    activitySeconds: [0, 1, 2, 3, 4].includes(hour) ? hour * 600 : 0
+  }))
+}
